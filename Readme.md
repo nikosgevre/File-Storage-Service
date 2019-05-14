@@ -43,3 +43,8 @@ The web application is developed on NodeJS, ExpressJs and ejs view engine. Javas
 
 #### Author: Nikos Gkevrekis AEM:1611
 
+***
+In order to use the application it is required to have a free mongodb account and a free sendgrid account. The two required keys have been removed from this repository and you must user your own mongodb URI and sendgrid api key!
+* mondodb URI is set in app.js
+* sendgrid api key is set in controllers/auth.js
+
