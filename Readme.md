@@ -33,7 +33,7 @@ The web application is developed on NodeJS, ExpressJs and ejs view engine. Javas
 
 ## How to run
 1. Download and install nodejs
-2. Install npm: npm install (Might be ok after this step)
+2. Install npm in the directory of the code: npm install (Might be ok after this step)
 3. Install shell package through npm: npm install shelljs --save
 4. Run the package-installer.js to download and install all the required modules
 5. To start the web app: npm start
