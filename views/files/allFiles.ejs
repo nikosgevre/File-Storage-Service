@@ -1,0 +1,167 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/product.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/list-grid.css">
+
+</head>
+
+<!-- style="height:300px" -->
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+        <div>
+            <% if (user.userpath != '/') { %>
+            <a class="btn btn-warning" href="/user/back" >Back</a>
+            <% } %>
+            <br>
+            <p class="bg-light text-dark" style="float: left;"> path: <%= user.userpath %></p>
+            <br>
+        </div>
+        <% if (files.length > 0) { %>
+        <div class="container">
+            <!-- <% if (user.userpath != '/') { %>
+                <a class="btn btn-warning" href="/user/back">Back</a>
+            <% } %> -->
+            <div class="dropdown">
+                <!-- <p class="bg-light text-dark" style="float: left;"> path: <%= user.userpath %></p> -->
+                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" style="float: right;">Sort
+                <span class="caret"></span></button>
+                
+                <div class="dropdown-menu" >
+                    <h5 class="dropdown-header">Ascending</h5>
+                    <a class="dropdown-item" href="/user/nameA">Name</a>
+                    <a class="dropdown-item" href="/user/sizeA">Size</a>
+                    <a class="dropdown-item" href="/user/timestampA">Timestamp</a>
+                    <h5 class="dropdown-header">Descending</h5>
+                    <a class="dropdown-item" href="/user/nameD">Name</a>
+                    <a class="dropdown-item" href="/user/sizeD">Size</a>
+                    <a class="dropdown-item" href="/user/timestampD">Timestamp</a>
+                </div>
+            </div>
+            <!-- <form class="form-inline" action="" >
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" >
+                <button class="btn btn-success" type="submit">Search</button>
+            </form> -->
+        </div>
+        <br>
+        <div class="container py-3">
+            <% for (let file of files) { %>
+            <div class="card">
+            <!-- <div class="table-primary"> -->
+                <div class="row">
+                    <div class="col-md-4">
+                        <% if (file.type == "image") { %>
+                        <a href="/<%= file.path %> %>">
+                            <img class="img-responsive card-img-top" src="/<%= file.path %>"
+                                style="height:128px; width: auto; display:block; position: relative; margin:auto; padding-top:2.5rem"
+                                alt="<%= file.name %>">
+                                <!-- max-width:6rem;  -->
+                        </a>
+                        <% } else if (file.type == "pdf") { %>
+                        <a href="/user/preview/<%= file._id %>">
+                            <img class="card-img-top" src="/images/pdf.png"
+                                style="height:128px; width:80px; display:block; position: relative; margin:auto; padding-top:2.5rem"
+                                alt="<%= file.name %>">
+                        </a>
+                        <% } else if (file.type == "doc") { %>
+                        <a href="/user/preview/<%= file._id %>">
+                            <img class="card-img-top" src="/images/doc.png"
+                                style="height:128px; width:80px; display:block; position: relative; margin:auto; padding-top:2.5rem"
+                                alt="<%= file.name %>">
+                        </a>
+                        <% } else if (file.type == "docx") { %>
+                        <a href="/user/open_folder/<%= file._id %>">
+                            <img class="card-img-top" src="/images/doc.png"
+                                style="height:128px; width:80px; display:block; position: relative; margin:auto; padding-top:2.5rem"
+                                alt="<%= file.name %>">
+                        </a>
+                        <% } else if (file.type == "folder") { %>
+                        <a href="/user/open_folder/<%= file.name %>">
+                            <img class="card-img-top" src="/images/folder.png"
+                                style="height:128px; width:80px; display:block; position: relative; margin:auto; padding-top:2.5rem"
+                                alt="<%= file.name %>">
+                        </a>
+                        <% } else if (file.type == "txt") { %>
+                        <a href="/user/preview/<%= file._id %>">
+                            <img class="card-img-top" src="/images/writing.png"
+                                style="height:128px; width:80px; display:block; position: relative; margin:auto; padding-top:2.5rem"
+                                alt="<%= file.name %>">
+                        </a>
+                        <% } else { %>
+                        <a href="/user/preview/<%= file._id %>">
+                            <img class="card-img-top" src="/images/file.png"
+                                style="height:128px; width:80px; display:block; position: relative; margin:auto; padding-top:2.5rem"
+                                alt="<%= file.name %>">
+                        </a>
+                        <% } %>
+                    </div>
+                    <div class="col-md-8 px-3">
+                        <div class="card-block px-3">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                    <% if (file.type == "image") { %>
+                                    <a href="/<%= file.path %> %>" data-lightbox="image-1"
+                                        data-title="<%= file.name %>"style="color:black"><%= file.name %></a>
+                                    <% } else if (file.type == 'folder') { %>
+                                    <a href="/user/open_folder/<%= file.name %>"style="color:black"><%= file.name %></a>
+                                    <% } else { %>
+                                    <a href="/user/preview/<%= file._id %>"style="color:black"><%= file.name %></a>
+                                    <% } %>
+                                </h4>
+                                <p class="card-text">Created on
+                                    <%= file.timestamp %>
+                                </p>
+                                <a href="/user/details/<%= file._id %>" class="btn btn-secondary">Details</a>
+                                <a class="btn btn-secondary" href="/user/download/<%= file._id %>">Download</a>
+                                <form action="/user/delete" method="post">
+                                    <input type="hidden" value="<%= file._id %>" name="fileId">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <!-- style="float: right;" -->
+                                    <button class="btn btn-secondary" type="submit" >Delete</button>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- </div> -->
+            <% } %>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script type="text/javascript">var scrolltotop={setting:{startline:100,scrollto:0,scrollduration:1e3,fadeduration:[500,100]},controlHTML:'<img src="https://i1155.photobucket.com/albums/p559/scrolltotop/arrow62.png" />',controlattrs:{offsetx:5,offsety:5},anchorkeyword:"#top",state:{isvisible:!1,shouldvisible:!1},scrollup:function(){this.cssfixedsupport||this.$control.css({opacity:0});var t=isNaN(this.setting.scrollto)?this.setting.scrollto:parseInt(this.setting.scrollto);t="string"==typeof t&&1==jQuery("#"+t).length?jQuery("#"+t).offset().top:0,this.$body.animate({scrollTop:t},this.setting.scrollduration)},keepfixed:function(){var t=jQuery(window),o=t.scrollLeft()+t.width()-this.$control.width()-this.controlattrs.offsetx,s=t.scrollTop()+t.height()-this.$control.height()-this.controlattrs.offsety;this.$control.css({left:o+"px",top:s+"px"})},togglecontrol:function(){var t=jQuery(window).scrollTop();this.cssfixedsupport||this.keepfixed(),this.state.shouldvisible=t>=this.setting.startline?!0:!1,this.state.shouldvisible&&!this.state.isvisible?(this.$control.stop().animate({opacity:1},this.setting.fadeduration[0]),this.state.isvisible=!0):0==this.state.shouldvisible&&this.state.isvisible&&(this.$control.stop().animate({opacity:0},this.setting.fadeduration[1]),this.state.isvisible=!1)},init:function(){jQuery(document).ready(function(t){var o=scrolltotop,s=document.all;o.cssfixedsupport=!s||s&&"CSS1Compat"==document.compatMode&&window.XMLHttpRequest,o.$body=t(window.opera?"CSS1Compat"==document.compatMode?"html":"body":"html,body"),o.$control=t('<div id="topcontrol">'+o.controlHTML+"</div>").css({position:o.cssfixedsupport?"fixed":"absolute",bottom:o.controlattrs.offsety,right:o.controlattrs.offsetx,opacity:0,cursor:"pointer"}).attr({title:"Scroll to Top"}).click(function(){return o.scrollup(),!1}).appendTo("body"),document.all&&!window.XMLHttpRequest&&""!=o.$control.text()&&o.$control.css({width:o.$control.width()}),o.togglecontrol(),t('a[href="'+o.anchorkeyword+'"]').click(function(){return o.scrollup(),!1}),t(window).bind("scroll resize",function(t){o.togglecontrol()})})}};scrolltotop.init();</script>
+            <noscript>Not seeing a <a href="https://www.scrolltotop.com/">Scroll to Top Button</a>? Go to our FAQ page for more info.</noscript>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <div style="display: flex; justify-content: center; margin: auto;">
+                <a href="/user/upload" class="btn btn-primary" style="margin:auto; " >Upload</a>
+                <a href="/user/create-folder" class="btn btn-primary" style="margin:auto; " >Create Folder</a>
+            </div>
+        </div>
+        <% } else { %>
+        <br>
+        <div>
+            <h1 class="text-center" id="title">Start upload files right away!</h1>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <div style="display: flex; justify-content: center; margin: auto;">
+                <a href="/user/upload" class="btn btn-primary" style="margin:auto; " >Upload</a>
+                <a href="/user/create-folder" class="btn btn-primary" style="margin:auto; " >Create Folder</a>
+            </div>
+            <% } %>
+        </div>
+    </main>
+    <%- include('../includes/end.ejs') %>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

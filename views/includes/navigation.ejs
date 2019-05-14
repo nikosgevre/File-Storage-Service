@@ -1,0 +1,79 @@
+
+    <nav class="navbar navbar-default fixed-top navbar-expand-sm bg-dark navbar-dark" >
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <% if (isAuthenticated) { %>
+                    <a class="<%= path === '/' ? 'active' : '' %> nav-link" href="/user/:prev">Dbox</a>
+                <% } else { %>
+                    <a class="<%= path === '/' ? 'active' : '' %> nav-link" href="/">Dbox</a>
+                <% } %>
+            </li>
+        </ul>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <ul class="navbar-nav">
+            <% if (isAuthenticated) { %>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/user/upload">Upload</a>
+                </li>
+            <% } %>
+        </ul>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <ul class="navbar-nav">
+            <% if (isAuthenticated) { %>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/user/create-folder">Create folder</a>
+                </li>
+            <% } %>
+        </ul>
+        <% if (isAuthenticated) { %>
+            <form class="form-inline" action="/user/search" method="POST" style="margin: auto;">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" name="name" id="name">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button class="btn btn-success" type="submit">Search</button>
+            </form>
+        <% } %>
+        
+        <ul class="navbar-nav ml-auto">
+            <% if (!isAuthenticated) { %>
+                <li class="nav-item active">
+                    <a class="<%= path === '/signup' ? 'active' : '' %> nav-link" href="/login">Join!</a>
+                </li>
+            <% } else { %>
+                <li class="nav-item active">
+                    <form action="/logout" method="post">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button class="btn btn-success" type="submit">Logout</button>
+                    </form>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
+
+<nav class="mobile-nav">
+    <ul class="mobile-nav__item-list">
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/' ? 'active' : '' %>" href="/user/:prev">Dbox</a>
+        </li>
+        <% if (isAuthenticated) { %>
+            <li class="main-header__item">
+                <a class="<%= path === '/' ? 'active' : '' %>" href="/user/upload">Upload</a>
+            </li>>
+        <% } %>
+        <% if (!isAuthenticated) { %>
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+            </li>
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
+            </li>
+        <% } else { %>
+            <li class="mobile-nav__item">
+                <form action="/logout" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit">Logout</button>
+                </form>
+            </li>
+        <% } %>
+    </ul>
+</nav>
+<div style="padding-top: 70px;"></div>

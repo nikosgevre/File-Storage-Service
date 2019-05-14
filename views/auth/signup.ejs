@@ -1,0 +1,92 @@
+<%- include('../includes/head.ejs') %>
+
+<link rel="stylesheet" href="/css/forms.css">
+<link rel="stylesheet" href="/css/auth.css">
+
+<link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+
+    <main>
+        <div class="container-fluid">
+            <div class="container">
+                <h2 class="text-center" id="title">Welcome!</h2>
+                <hr>
+                <% if (errorMessage) { %>
+                        <div class="user-message user-message--error"><%= errorMessage %></div>
+                        <% } %>
+                <div class="row">
+                    <div class="col-md-5">
+                        
+
+                        <form role="form" action="/signup" method="POST" novalidate>
+                            <fieldset>
+                                <p class="text-uppercase pull-center"> SIGN UP.</p>
+
+                                <div class="form-group">
+                                    <input
+                                        class=" form-control input-lg"
+                                        type="email" name="email" id="email" value="<%= oldInput.email %>"
+                                        placeholder="Email">
+                                </div>
+                                <div class="form-group">
+                                    <input
+                                        class=" form-control input-lg"
+                                        type="password" name="password" id="password" 
+                                        placeholder="Password">
+                                </div>
+                                <div class="form-group">
+                                    <input
+                                        class=" form-control input-lg"
+                                        type="password" name="confirmPassword" id="confirmPassword"
+                                         placeholder="Confirm Password">
+                                </div>
+                                <div>
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <input type="submit" class="btn btn-lg btn-primary" value="Sign up">
+                                </div>
+                            </fieldset>
+                        </form>
+
+                    </div>
+
+                    <div class="col-md-2">
+                    </div>
+                    <div class="col-md-5">
+                        <form role="form" action="/login" method="POST">
+                            <fieldset>
+                                <p class="text-uppercase"> Login using your account: </p>
+
+                                <div class="form-group">
+                                    <!-- <input type="email" name="username" id="username" class="form-control input-lg" placeholder="username"> -->
+                                    <input
+                                        class=" form-control input-lg"
+                                        type="email" name="email" id="email" >
+                                </div>
+                                <div class="form-group">
+                                    <input
+                                        class=" form-control input-lg"
+                                        type="password" name="password" id="password" >
+                                </div>
+                                <div>
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <input type="submit" class="btn btn-success" value="Sign In">
+                                    <a class="btn btn-success" href="/reset">Reset Password</a>
+                                </div>
+
+                            </fieldset>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <%- include('../includes/end.ejs') %>

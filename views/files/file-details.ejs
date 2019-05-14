@@ -1,0 +1,98 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    <main class="centered">
+        <!-- <h1><%= file.name %></h1> -->
+        <header class="card__header">
+            <h1 class="product__title">
+                <% if (file.type == "image") { %>
+                <a href="/<%= file.path %> %>" data-lightbox="example-1"
+                    data-title="<%= file.name %>" style="color:black"><%= file.name %></a>
+                
+                <% } else if (file.type == 'folder') { %>
+                <a href="/user/open_folder/<%= file.name %>" style="color:black"><%= file.name %></a>
+                <% } else { %>
+                <a href="/user/preview/<%= file._id %>" style="color:black"><%= file.name %></a>
+                <% } %>
+            </h1>
+        </header>
+        <hr>
+        <div class="container">
+            <table class="table table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th>Path</th>
+                        <th>Size</th>
+                        <th>Timestamp</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><%= file.userpath %></td>
+                        <% if (file.size == '-') { %>
+                            <td></td>
+                        <% } else { %>
+                            <td><%= file.size %> B</td>
+                        <% } %>
+                        <td><%= file.timestamp %></td>
+                        <td><%= file.mimetype %></td>
+                    </tr>
+                </tbody>
+                <div class="grid det">
+                    <div class="image">
+                            <% if (file.type == "image") { %>
+                                <a href="/<%= file.path %> %>">
+                                    <img class="card-img-top" src="/<%= file.path %>" 
+                                        alt="<%= file.name %>" style="width: auto; height: 100%;">
+                                </a>
+                            <% } else if (file.type == "pdf") { %>
+                                <a href="/user/preview/<%= file._id %>">
+                                    <img class="card-img-top" src="/images/pdf-big.png" 
+                                        alt="<%= file.name %>" style="width: auto; height: 100%;">
+                                </a>
+                            <% } else if (file.type == "doc") { %>
+                                <a href="/user/preview/<%= file._id %>">
+                                    <img class="card-img-top" src="/images/doc-big.png" 
+                                        alt="<%= file.name %>" style="width: auto; height: 100%;">
+                                </a>
+                            <% } else if (file.type == "docx") { %>
+                                <a href="/user/preview/<%= file._id %>">
+                                    <img class="card-img-top" src="/images/doc-big.png" 
+                                        alt="<%= file.name %>" style="width: auto; height: 100%;">
+                                </a>
+                            <% } else if (file.type == "folder") { %>
+                                <a href="/user/open_folder/<%= file.name %>">
+                                    <img class="card-img-top" src="/images/folder-big.png"
+                                        alt="<%= file.name %>" style="width: auto; height: 100%;">
+                                </a>
+                            <% } else if (file.type == "txt") { %>
+                                <a href="/user/preview/<%= file._id %>">
+                                    <img class="card-img-top" src="/images/writing-big.png" 
+                                        alt="<%= file.name %>" style="width: auto; height: 100%;">
+                                </a>
+                            <% } else { %>
+                                <a href="/user/preview/<%= file._id %>">
+                                    <img class="card-img-top" src="/images/file-big.png" 
+                                        alt="<%= file.name %>" style="width: auto; height: 100%;">
+                                </a>
+                            <% } %>
+                    </div>
+                </div>
+        </div>
+        <hr>
+        <a href="/user/rename/<%= file._id %>?edit=true" class="btn btn-secondary">Rename</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="btn btn-secondary" href="/user/download/<%= file._id %>">Download</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <form action="/user/delete" method="post">
+            <input type="hidden" value="<%= file._id %>" name="fileId">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn btn-secondary" type="submit">Delete</button>
+        </form>
+        <hr>
+    </main>
+    <%- include('../includes/end.ejs') %>
