@@ -7,7 +7,7 @@ const mkdirp = require('mkdirp');
 const fs = require('fs');
 
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey('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');
+sgMail.setApiKey('');
 
 const User = require('../models/user');
 
