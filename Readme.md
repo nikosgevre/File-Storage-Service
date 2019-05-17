@@ -25,6 +25,7 @@ The web application is developed on NodeJS, ExpressJs and ejs view engine. Javas
 * Rename folder
 * Sort viewing list
 * Details of file/folder
+* Search
 
 #### Bugs
 * Deleting folders is only working in one level. All sub directories and their files are deleted from the server but not from the database.
